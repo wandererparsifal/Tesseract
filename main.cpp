@@ -20,13 +20,13 @@ int main(int argc, char **argv) {
     cvtColor(image, grayImage, COLOR_BGR2GRAY);
 
     Mat binaryImage;
-    threshold(grayImage, binaryImage, 85, 255, CV_THRESH_BINARY_INV);
+    threshold(grayImage, binaryImage, 180, 255, CV_THRESH_BINARY_INV);
 
-    Mat element1 = getStructuringElement(MORPH_RECT, Size(1, 1));
+    Mat element1 = getStructuringElement(MORPH_RECT, Size(3, 3));
     Mat erosionImage;
     erode(binaryImage, erosionImage, element1);
 
-    Mat element2 = getStructuringElement(MORPH_RECT, Size(6, 6));
+    Mat element2 = getStructuringElement(MORPH_RECT, Size(3, 3));
     Mat dilationImage;
     dilate(erosionImage, dilationImage, element2);
 
@@ -35,7 +35,7 @@ int main(int argc, char **argv) {
     tess.SetPageSegMode(tesseract::PSM_SINGLE_BLOCK);
     tess.SetImage(dilationImage.data, dilationImage.cols, dilationImage.rows, 1, dilationImage.cols);
 
-//    imwrite("/home/yangming/Develop/Projects/Cpp/cv_test/dilation.tiff", dilationImage);
+//    imwrite("/home/yangming/Develop/Projects/Cpp/Tesseract/10.tiff", dilationImage);
 
     // Get the text
     char *out = tess.GetUTF8Text();
